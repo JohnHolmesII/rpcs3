@@ -29,7 +29,8 @@ VULKAN_SDK_URL="https://sdk.lunarg.com/sdk/download/${VULKAN_VER}/windows/Vulkan
 QT_URLS="          \
     $QT_BASE_URL   \
     $QT_WINE_URL   \
-    $QT_DECL_URL"
+    $QT_DECL_URL   \
+    $QT_TOOL_URL"
 
 # Azure pipelines doesn't make a cache dir if it doesn't exist, so we do it manually
 [ -d "$CACHE_DIR" ] || mkdir "$CACHE_DIR"

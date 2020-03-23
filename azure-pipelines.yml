@@ -79,7 +79,6 @@ jobs:
       artifact: Windows App Bundle
 
     - task: GitHubRelease@1
-      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
       inputs:
         gitHubConnection: 'GitHub'
         repositoryName: '$(Build.Repository.Name)'
