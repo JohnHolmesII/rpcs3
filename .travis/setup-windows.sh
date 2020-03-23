@@ -80,10 +80,10 @@ COMM_HASH=$(git rev-parse --short=8 HEAD)
 
 # Format the above into filenames
 if [ -n "$PR_NUMBER" ]; then
-    AVVER="${COMM_TAG}-${COMM_HASH}";
-    BUILD="rpcs3-v${AVVER}_win64.7z";
+    AVVER="${COMM_TAG}-${COMM_HASH}"
+    BUILD="rpcs3-v${AVVER}_win64.7z"
 else
-    AVVER="${COMM_TAG}-${COMM_COUNT}";
+    AVVER="${COMM_TAG}-${COMM_COUNT}"
     BUILD="rpcs3-v${AVVER}-${COMM_HASH}_win64.7z"
 fi
 
