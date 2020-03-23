@@ -82,8 +82,7 @@ jobs:
       inputs:
         gitHubConnection: 'GitHub'
         repositoryName: '$(Build.Repository.Name)'
-        releaseNotesSource: 'inline'
-        releaseNotesInline: "$(BUILDSHA)|$(FSIZE)B"
+        releaseNotesFilePath: 'GitHubReleaseMessage.txt'
         action: 'create'
         target: '$(Build.SourceVersion)'
         tagSource: 'userSpecifiedTag'

@@ -14,11 +14,9 @@ curl -sL "$COMPATDB" | iconv -t UTF-8 > ./bin/GuiConfigs/compat_database.dat
 7z a -m0=LZMA2 -mx9 "$BUILD" ./bin/*
 
 # Generate sha256 hashes
-# Need to export these values for the GitHub release
-BUILDSHA=$(sha256sum "$BUILD" | awk '{ print $1 }' | tee "$BUILD.sha256")
-FSIZE=$(stat -c %s "$BUILD")
-echo "##vso[task.setvariable variable=buildsha]$BUILDSHA"
-echo "##vso[task.setvariable variable=fsize]$FSIZE"
+# Write to file for GitHub releases
+sha256sum "$BUILD" | awk '{ print $1 }' | tee "$BUILD.sha256"
+echo "$(cat "$BUILD.sha256");$(stat -c %s "$BUILD")B" > GitHubReleaseMessage.txt
 
 # Move files to publishing directory
 mv -- "$BUILD" "$ARTIFACT_DIR"
