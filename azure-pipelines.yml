@@ -44,10 +44,6 @@ jobs:
 
 - job: Windows_Build
   variables:
-    REPO_NAME: $(Build.Repository.Name)
-    REPO_BRANCH: $(System.PullRequest.SourceBranch)
-    PR_NUMBER: $(System.PullRequest.PullRequestId)
-    ARTIFACT_DIR: $(Build.ArtifactStagingDirectory)
     COMPILER: msvc
     QT_VER: '5.14.1'
     QT_DATE: '202001240957'
@@ -79,5 +75,20 @@ jobs:
     - bash: .travis/deploy-windows.sh
       displayName: Pack up build artifacts
 
-    - publish: $(ARTIFACT_DIR)
+    - publish: $(Build.ArtifactStagingDirectory)
       artifact: Windows App Bundle
+
+    - task: GitHubRelease@1
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      inputs:
+        gitHubConnection: 'GitHub'
+        repositoryName: '$(Build.Repository.Name)'
+        releaseNotesSource: 'inline'
+        releaseNotesInline: "$(BUILDSHA)|$(FSIZE)B"
+        action: 'create'
+        target: '$(Build.SourceVersion)'
+        tagSource: 'userSpecifiedTag'
+        tag: 'build-$(Build.SourceVersion)'
+        title: $(AVVER)
+        addChangeLog: false
+      displayName: Push build to GitHub

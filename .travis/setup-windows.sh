@@ -6,6 +6,11 @@ rev()
     echo "$1" | awk '{ for(i = length($0); i != 0; --i) { a = a substr($0, i, 1); } } END { print a }'
 }
 
+# These are Azure specific, so we wrap them for portability
+REPO_NAME="$BUILD_REPOSITORY_NAME"
+REPO_BRANCH="$SYSTEM_PULLREQUEST_SOURCEBRANCH"
+PR_NUMBER="$SYSTEM_PULLREQUEST_PULLREQUESTID"
+
 # Resource/dependency URLs
 # Qt mirrors can be volatile and slow, so we list 2
 #QT_HOST="http://mirrors.ocf.berkeley.edu/qt/"
@@ -87,7 +92,8 @@ fi
 # in later stages, but are not added to environment variables
 # in *this* stage. Thank azure for that one.
 # BRANCH is used for experimental build warnings for pr builds
-# It is accessed in main_window.cpp
+# used in main_window.cpp. AVVER is used for GitHub releases.
 BRANCH="${REPO_NAME}/${REPO_BRANCH}"
 echo "##vso[task.setvariable variable=branch]$BRANCH"
 echo "##vso[task.setvariable variable=build]$BUILD"
+echo "##vso[task.setvariable variable=avver]$AVVER"
