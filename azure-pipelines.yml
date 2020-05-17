@@ -4,106 +4,106 @@ trigger:
       - master
   tags:
     exclude:
-      - '*'
+      - "*"
 pr:
   branches:
     include:
       - master
-jobs:
-- job: Linux_Build
-  strategy:
-    matrix:
-      Clang:
-        COMPILER: clang
-      GCC:
-        COMPILER: gcc
-        DEPLOY_APPIMAGE: true
-  variables:
-    CCACHE_DIR: $(Pipeline.Workspace)/ccache
-    IS_AZURE: true
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - task: Cache@2
-    inputs:
-      key: ccache | $(Agent.OS) | $(COMPILER)
-      path: $(CCACHE_DIR)
-    displayName: ccache
-
-  - bash: |
-      docker pull --quiet rpcs3/rpcs3-travis-xenial:1.4
-      docker run                      \
-        -v $(pwd):/rpcs3              \
-        --env-file .ci/travis.env \
-        -v $CCACHE_DIR:/root/.ccache  \
-        -v $BUILD_ARTIFACTSTAGINGDIRECTORY:/root/artifacts \
-        rpcs3/rpcs3-travis-xenial:1.4 \
-        /rpcs3/.ci/build-linux.sh
-    displayName: Docker setup and build
-
-  - publish: $(Build.ArtifactStagingDirectory)
-    condition: eq(variables['COMPILER'], 'gcc')
-
 parameters:
-- name: isMaster
-  default: true
-  type: boolean
-- name: isFork
-  default: true
-  type: boolean
+  - name: isMaster
+    default: true
+    type: boolean
+  - name: isFork
+    default: true
+    type: boolean
 
-- job: Windows_Build
-  variables:
-    COMPILER: msvc
-    QT_VER: '5.14.1'
-    QT_DATE: '202001240957'
-    QTDIR: C:\Qt\$(QT_VER)\msvc2017_64
-    VULKAN_VER: '1.2.135.0'
-    VULKAN_SDK_SHA: '181b3353612c8b0fc5e1857b652d62140191ae42b98f2f0d532cf349cebfd8c6'
-    VULKAN_SDK: C:\VulkanSDK\$(VULKAN_VER)
-    CACHE_DIR: ./cache
+jobs:
+  - job: Linux_Build
+    strategy:
+      matrix:
+        Clang:
+          COMPILER: clang
+        GCC:
+          COMPILER: gcc
+          DEPLOY_APPIMAGE: true
+    variables:
+      CCACHE_DIR: $(Pipeline.Workspace)/ccache
+      IS_AZURE: true
+    pool:
+      vmImage: "ubuntu-latest"
+    steps:
+      - task: Cache@2
+        inputs:
+          key: ccache | $(Agent.OS) | $(COMPILER)
+          path: $(CCACHE_DIR)
+        displayName: ccache
 
-  pool:
-    vmImage: "windows-latest"
+      - bash: |
+          docker pull --quiet rpcs3/rpcs3-travis-xenial:1.4
+          docker run                      \
+            -v $(pwd):/rpcs3              \
+            --env-file .ci/travis.env \
+            -v $CCACHE_DIR:/root/.ccache  \
+            -v $BUILD_ARTIFACTSTAGINGDIRECTORY:/root/artifacts \
+            rpcs3/rpcs3-travis-xenial:1.4 \
+            /rpcs3/.ci/build-linux.sh
+        displayName: Docker setup and build
 
-  steps:
-    - task: Cache@2
-      inputs:
-        key: $(Agent.OS) | $(COMPILER)
-        path: $(CACHE_DIR)
-      displayName: Cache
+      - publish: $(Build.ArtifactStagingDirectory)
+        condition: eq(variables['COMPILER'], 'gcc')
 
-    - bash: .ci/setup-windows.sh
-      displayName: Download and unpack dependencies
+  - job: Windows_Build
+    variables:
+      COMPILER: msvc
+      QT_VER: "5.14.1"
+      QT_DATE: "202001240957"
+      QTDIR: C:\Qt\$(QT_VER)\msvc2017_64
+      VULKAN_VER: "1.2.135.0"
+      VULKAN_SDK_SHA: "181b3353612c8b0fc5e1857b652d62140191ae42b98f2f0d532cf349cebfd8c6"
+      VULKAN_SDK: C:\VulkanSDK\$(VULKAN_VER)
+      CACHE_DIR: ./cache
 
-    - bash: .ci/export-azure-vars.sh
-      displayName: Export Variables
+    pool:
+      vmImage: "windows-latest"
 
-    - task: VSBuild@1
-      inputs:
-        solution: 'rpcs3.sln'
-        msbuildArgs: '/m'
-        platform: x64
-        configuration: 'Release - LLVM'
-      displayName: Compile RPCS3
+    steps:
+      - task: Cache@2
+        inputs:
+          key: $(Agent.OS) | $(COMPILER)
+          path: $(CACHE_DIR)
+        displayName: Cache
 
-    - bash: .ci/deploy-windows.sh
-      displayName: Pack up build artifacts
+      - bash: .ci/setup-windows.sh
+        displayName: Download and unpack dependencies
 
-    - publish: $(Build.ArtifactStagingDirectory)
-      artifact: Windows App Bundle
+      - bash: .ci/export-azure-vars.sh
+        displayName: Export Variables
 
-    - task: GitHubRelease@1
+      - task: VSBuild@1
+        inputs:
+          solution: "rpcs3.sln"
+          msbuildArgs: "/m"
+          platform: x64
+          configuration: "Release - LLVM"
+        displayName: Compile RPCS3
 
-      condition: eq('${{ parameters.isMaster }}', true)
-      inputs:
-        gitHubConnection: 'RPCS3-Token'
-        repositoryName: 'RPCS3/rpcs3-binaries-win'
-        releaseNotesFilePath: 'GitHubReleaseMessage.txt'
-        action: 'create'
-        target: '7d09e3be30805911226241afbb14f8cdc2eb054e'
-        tagSource: 'userSpecifiedTag'
-        tag: 'build-$(Build.SourceVersion)'
-        title: $(AVVER)
-        addChangeLog: false
-      displayName: Push build to GitHub
+      - bash: .ci/deploy-windows.sh
+        displayName: Pack up build artifacts
+
+      - publish: $(Build.ArtifactStagingDirectory)
+        artifact: Windows App Bundle
+
+      - task: GitHubRelease@1
+
+        condition: eq('${{ parameters.isMaster }}', true)
+        inputs:
+          gitHubConnection: "RPCS3-Token"
+          repositoryName: "RPCS3/rpcs3-binaries-win"
+          releaseNotesFilePath: "GitHubReleaseMessage.txt"
+          action: "create"
+          target: "7d09e3be30805911226241afbb14f8cdc2eb054e"
+          tagSource: "userSpecifiedTag"
+          tag: "build-$(Build.SourceVersion)"
+          title: $(AVVER)
+          addChangeLog: false
+        displayName: Push build to GitHub
