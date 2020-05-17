@@ -58,6 +58,14 @@ jobs:
   pool:
     vmImage: "windows-latest"
 
+  parameters:
+  - name: isMaster
+    default: true
+    type: boolean
+  - name: isFork
+    default: true
+    type: boolean
+
   steps:
     - task: Cache@2
       inputs:
@@ -86,13 +94,8 @@ jobs:
       artifact: Windows App Bundle
 
     - task: GitHubRelease@1
-      parameters:
-      - name: doThing
-        default: true
-        type: boolean
-      isMaster: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-      isFork: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-      condition: eq('${{ parameters.doThing }}', true)
+
+      condition: eq('${{ parameters.isMaster }}', true)
       inputs:
         gitHubConnection: 'RPCS3-Token'
         repositoryName: 'RPCS3/rpcs3-binaries-win'
