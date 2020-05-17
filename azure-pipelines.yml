@@ -87,8 +87,8 @@ jobs:
         artifact: Windows App Bundle
 
       - task: GitHubRelease@1
-        ${{ if eq(Build.SourceBranch, 'refs/heads/mooster') }}:
-          ${{ if eq(Build.SourceBranch, 'refs/heads/mooster') }}:
+        ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+          ${{ if eq(['Build.SourceBranch'], 'refs/heads/mooster') }}:
             inputs:
               gitHubConnection: "RPCS3-Token"
               repositoryName: "RPCS3/rpcs3-binaries-win"
