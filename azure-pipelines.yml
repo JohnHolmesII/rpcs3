@@ -86,7 +86,13 @@ jobs:
       artifact: Windows App Bundle
 
     - task: GitHubRelease@1
-      condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      parameters:
+      - name: doThing
+        default: true
+        type: boolean
+      isMaster: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      isFork: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      condition: eq('${{ parameters.doThing }}', true)
       inputs:
         gitHubConnection: 'RPCS3-Token'
         repositoryName: 'RPCS3/rpcs3-binaries-win'
