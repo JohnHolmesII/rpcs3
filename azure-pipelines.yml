@@ -11,7 +11,7 @@ pr:
       - master
 parameters:
   - name: isMaster
-    default: true
+    default: eq(variables['Build.SourceBranch'], 'refs/heads/master')
     type: boolean
   - name: isFork
     default: true
