@@ -86,7 +86,7 @@ jobs:
       artifact: Windows App Bundle
 
     - task: GitHubRelease@1
-      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       inputs:
         gitHubConnection: 'RPCS3-Token'
         repositoryName: 'RPCS3/rpcs3-binaries-win'
