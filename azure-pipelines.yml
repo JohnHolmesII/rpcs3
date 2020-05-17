@@ -44,6 +44,14 @@ jobs:
   - publish: $(Build.ArtifactStagingDirectory)
     condition: eq(variables['COMPILER'], 'gcc')
 
+parameters:
+- name: isMaster
+  default: true
+  type: boolean
+- name: isFork
+  default: true
+  type: boolean
+
 - job: Windows_Build
   variables:
     COMPILER: msvc
@@ -57,14 +65,6 @@ jobs:
 
   pool:
     vmImage: "windows-latest"
-
-  parameters:
-  - name: isMaster
-    default: true
-    type: boolean
-  - name: isFork
-    default: true
-    type: boolean
 
   steps:
     - task: Cache@2
