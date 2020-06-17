@@ -6,8 +6,8 @@
 #include "Utilities/hash.h"
 #include "Utilities/mutex.h"
 #include "util/logs.hpp"
-#include "Utilities/span.h"
 
+#include <span>
 #include <deque>
 #include <unordered_map>
 
@@ -398,7 +398,7 @@ public:
 			std::forward<Args>(args)...);   // Other arguments
 	}
 
-	void fill_fragment_constants_buffer(gsl::span<f32> dst_buffer, const RSXFragmentProgram& fragment_program, bool sanitize = false) const;
+	void fill_fragment_constants_buffer(std::span<f32> dst_buffer, const RSXFragmentProgram& fragment_program, bool sanitize = false) const;
 
 	void clear()
 	{

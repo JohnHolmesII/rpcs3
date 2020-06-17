@@ -3,6 +3,8 @@
 #include "surface_utils.h"
 #include "../gcm_enums.h"
 #include "../rsx_utils.h"
+
+#include <span>
 #include <list>
 
 #include "util/asm.hpp"
