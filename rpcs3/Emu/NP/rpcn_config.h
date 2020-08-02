@@ -15,8 +15,8 @@ struct cfg_rpcn : cfg::node
 	std::string get_npid(); // not const because it can save if npid is requested and it has never been set
 	std::string get_password() const;
 
-	void set_host(const std::string& host);
-	void set_npid(const std::string& npid);
+	void set_host(const std::string& new_host);
+	void set_npid(const std::string& new_npid);
 	void set_password(const std::string& password);
 
 	private:

@@ -61,14 +61,14 @@ std::string cfg_rpcn::get_password() const
 	return password.to_string();
 }
 
-void cfg_rpcn::set_host(const std::string& host)
+void cfg_rpcn::set_host(const std::string& new_host)
 {
-	this->host.from_string(host);
+	this->host.from_string(new_host);
 }
 
-void cfg_rpcn::set_npid(const std::string& npid)
+void cfg_rpcn::set_npid(const std::string& new_npid)
 {
-	this->npid.from_string(npid);
+	this->npid.from_string(new_npid);
 }
 
 void cfg_rpcn::set_password(const std::string& password)
