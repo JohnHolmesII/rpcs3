@@ -17,7 +17,7 @@ struct cfg_rpcn : cfg::node
 
 	void set_host(const std::string& new_host);
 	void set_npid(const std::string& new_npid);
-	void set_password(const std::string& password);
+	void set_password(const std::string& new_password);
 
 	private:
 	static std::string get_path();

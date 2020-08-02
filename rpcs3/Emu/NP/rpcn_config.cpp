@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "rpcn_config.h"
-#include "Emu/System.h"
+#include "Crypto/sha256.h"
 
 cfg_rpcn g_cfg_rpcn;
 
@@ -71,7 +71,25 @@ void cfg_rpcn::set_npid(const std::string& new_npid)
 	this->npid.from_string(new_npid);
 }
 
-void cfg_rpcn::set_password(const std::string& password)
+void cfg_rpcn::set_password(const std::string& new_password)
 {
-	this->password.from_string(password);
+    if (new_password.empty())
+    {
+        this->password.from_default();
+
+        return;
+    }
+
+    mbedtls_sha256_context hash_context = {};
+    unsigned char output_hash[33] = {}; // Output is 32 bytes, add extra to allow string construction later
+    const auto password_buffer = reinterpret_cast<const unsigned char*>(new_password.c_str());
+
+    mbedtls_sha256_init(&hash_context);
+    mbedtls_sha256_starts_ret(&hash_context, false);
+    mbedtls_sha256_update_ret(&hash_context, password_buffer, new_password.length());
+    mbedtls_sha256_finish_ret(&hash_context, output_hash);
+
+    const auto hash_as_string = std::string(reinterpret_cast<const char*>(output_hash));
+
+	this->password.from_string(hash_as_string);
 }
