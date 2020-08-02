@@ -29,7 +29,7 @@ std::string cfg_rpcn::generate_npid()
 	const char list_chars[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
 	    'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-	std::srand(time(0));
+	std::srand(time(nullptr));
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -47,7 +47,7 @@ std::string cfg_rpcn::get_host() const
 std::string cfg_rpcn::get_npid()
 {
 	std::string final_npid = npid.to_string();
-	if (final_npid == "")
+	if (final_npid.empty())
 	{
 		final_npid = cfg_rpcn::generate_npid();
 		save();
