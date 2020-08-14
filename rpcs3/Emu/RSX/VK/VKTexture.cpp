@@ -9,6 +9,8 @@
 
 #include "util/asm.hpp"
 
+#include <span>
+
 namespace vk
 {
 	VkComponentMapping default_component_map()
