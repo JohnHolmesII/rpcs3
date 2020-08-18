@@ -288,7 +288,7 @@ inline RT ppu_execute(ppu_thread& ppu, Args... args)
 	return func(ppu, args...);
 }
 
-#define REG_FNID(_module, nid, func) ppu_module_manager::register_static_function<&func>(#_module, ppu_select_name(#func, nid), BIND_FUNC(func, ppu.cia = static_cast<u32>(ppu.lr) & ~3), ppu_generate_id(nid))
+#define REG_FNID(_module, nid, func) ppu_module_manager::register_static_function<&func>(#_module, ppu_select_name(#func, nid), BIND_FUNC(func, ppu.cia = static_cast<u32>(ppu.lr) & ~3u), ppu_generate_id(nid))
 
 #define REG_FUNC(_module, func) REG_FNID(_module, #func, func)
 
