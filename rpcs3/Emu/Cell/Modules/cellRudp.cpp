@@ -13,6 +13,7 @@ void fmt_class_string<CellRudpError>::format(std::string& out, u64 arg)
 	{
 		switch (error)
 		{
+			STR_CASE(CELL_RUDP_SUCCESS);
 			STR_CASE(CELL_RUDP_ERROR_NOT_INITIALIZED);
 			STR_CASE(CELL_RUDP_ERROR_ALREADY_INITIALIZED);
 			STR_CASE(CELL_RUDP_ERROR_INVALID_CONTEXT_ID);

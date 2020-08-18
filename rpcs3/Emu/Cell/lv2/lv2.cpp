@@ -65,6 +65,7 @@ void fmt_class_string<lv2_protocol>::format(std::string& out, u64 arg)
 		case SYS_SYNC_PRIORITY: return "PRIO";
 		case SYS_SYNC_PRIORITY_INHERIT: return "PRIO-INHER";
 		case SYS_SYNC_RETRY: return "RETRY";
+		case SYS_SYNC_ATTR_PROTOCOL_MASK: return "ATTR-PROTOCOL-MASK";
 		}
 
 		return unknown;

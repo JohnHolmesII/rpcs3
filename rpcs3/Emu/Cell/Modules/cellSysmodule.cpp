@@ -20,6 +20,7 @@ void fmt_class_string<CellSysmoduleError>::format(std::string& out, u64 arg)
 	{
 		switch (error)
 		{
+			STR_CASE(CELL_SYSMODULE_LOADED);
 			STR_CASE(CELL_SYSMODULE_ERROR_DUPLICATED);
 			STR_CASE(CELL_SYSMODULE_ERROR_UNKNOWN);
 			STR_CASE(CELL_SYSMODULE_ERROR_UNLOADED);
