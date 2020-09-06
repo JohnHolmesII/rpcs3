@@ -13,7 +13,7 @@ environment:
     CACHE_DIR: ./cache
 
 install:
-  - ps: bash.exe .ci/setup-windows.sh
+  - ps: git-bash.exe .ci/setup-windows.sh
 
 build:
   project: rpcs3.sln
