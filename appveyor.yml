@@ -3,7 +3,8 @@ configuration: Release - LLVM
 platform: x64
 
 install:
-  - sh: bash -ex .ci/setup-windows.sh
+  - sh: .ci/setup-windows.sh
+  - sh: sleep 60
 
 build:
   project: rpcs3.sln
