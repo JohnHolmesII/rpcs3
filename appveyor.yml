@@ -2,6 +2,16 @@ image: Visual Studio 2019
 configuration: Release - LLVM
 platform: x64
 
+environment:
+    COMPILER: msvc
+    QT_VER: '5.14.2'
+    QT_DATE: '202003291224'
+    QTDIR: "C:\\Qt\\$(QT_VER)\\msvc2017_64"
+    VULKAN_VER: '1.2.148.1'
+    VULKAN_SDK_SHA: '5dbeafbc75c334811720fb50bd6ed7c9afd42afd31cad6be0b84cd8383aa9472'
+    VULKAN_SDK: "C:\\VulkanSDK\\$(VULKAN_VER)"
+    CACHE_DIR: ./cache
+
 install:
   - ps: bash.exe .ci/setup-windows.sh
 
