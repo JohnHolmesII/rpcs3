@@ -1,0 +1,13 @@
+configuration: Release - LLVM
+platform: x64
+
+before_build:
+  - sh: setup-windows.sh
+
+build:
+  project: rpcs3.sln
+  parallel: true
+  verbosity: normal
+
+after_build:
+  - sh: deploy-windows.sh
