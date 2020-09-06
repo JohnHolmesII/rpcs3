@@ -3,7 +3,7 @@ configuration: Release - LLVM
 platform: x64
 
 before_build:
-  - sh: setup-windows.sh
+  - sh: .ci/setup-windows.sh
 
 build:
   project: rpcs3.sln
@@ -11,4 +11,4 @@ build:
   verbosity: normal
 
 after_build:
-  - sh: deploy-windows.sh
+  - sh: .ci/deploy-windows.sh
