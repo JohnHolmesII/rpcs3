@@ -2,7 +2,7 @@ image: Visual Studio 2019
 configuration: Release - LLVM
 platform: x64
 
-init:
+install:
   - sh: .ci/setup-windows.sh
 
 build:
