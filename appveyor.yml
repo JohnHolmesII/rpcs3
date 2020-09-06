@@ -3,8 +3,8 @@ configuration: Release - LLVM
 platform: x64
 
 install:
-  - sh: .ci/setup-windows.sh
-  - sh: sleep 60
+  - ps: .ci/setup-windows.sh
+  - ps: sleep 60
 
 build:
   project: rpcs3.sln
@@ -12,4 +12,4 @@ build:
   verbosity: normal
 
 after_build:
-  - sh: .ci/deploy-windows.sh
+  - ps: .ci/deploy-windows.sh
