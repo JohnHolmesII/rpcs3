@@ -17,9 +17,9 @@ jobs:
         COMPILER: clang
       GCC:
         COMPILER: gcc
-        DEPLOY_APPIMAGE: true
   variables:
     CCACHE_DIR: $(Pipeline.Workspace)/ccache
+    DEPLOY_APPIMAGE: true
     IS_AZURE: true
     UPLOAD_COMMIT_HASH: d812f1254a1157c80fd402f94446310560f54e5f
     UPLOAD_REPO_FULL_NAME: "RPCS3/rpcs3-binaries-linux"
@@ -44,7 +44,6 @@ jobs:
     displayName: Docker setup and build
 
   - publish: $(Build.ArtifactStagingDirectory)
-    condition: and(succeeded(), eq(variables['COMPILER'], 'gcc'))
     artifact: RPCS3 for Linux
 
   - bash: .ci/github-upload.sh
