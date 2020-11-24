@@ -44,7 +44,7 @@ jobs:
     displayName: Docker setup and build
 
   - publish: $(Build.ArtifactStagingDirectory)
-    artifact: RPCS3 for Linux
+    artifact: RPCS3 for Linux $(COMPILER)
 
   - bash: .ci/github-upload.sh
     condition: and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['Build.Repository.Name'], 'RPCS3/rpcs3'), eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['COMPILER'], 'gcc'))
