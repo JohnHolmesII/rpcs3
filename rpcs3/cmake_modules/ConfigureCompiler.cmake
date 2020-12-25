@@ -38,6 +38,7 @@ else()
 	add_compile_options(-Wno-unused-function)
 	add_compile_options(-Wno-attributes)
 	add_compile_options(-Wno-comment)
+	add_compile_options(-Wno-return-type)
 
 	if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 		add_compile_options(-fconstexpr-steps=16777216)

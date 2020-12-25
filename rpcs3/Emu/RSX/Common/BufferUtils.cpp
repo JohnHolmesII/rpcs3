@@ -47,8 +47,6 @@ const bool s_use_avx2 = utils::has_avx2();
 
 namespace
 {
-	// FIXME: GSL as_span break build if template parameter is non const with current revision.
-	// Replace with true as_span when fixed.
 	template <typename T>
 	std::span<T> as_span(std::span<std::byte> unformated_span)
 	{
