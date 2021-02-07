@@ -21,23 +21,25 @@
 // Hex string conversion auxiliary functions.
 u64 hex_to_u64(const char* hex_str)
 {
-	auto length = std::strlen(hex_str);
-	u64 tmp = 0;
+	const std::string_view hex_input(hex_str);
+	u64 length = hex_input.size();
+	u64 tmp    = 0;
 	u64 result = 0;
-	char c;
 
-	while (length--)
+	for (const auto c : hex_input)
 	{
-		c = *hex_str++;
-		if((c >= '0') && (c <= '9'))
-			tmp = c - '0';
-		else if((c >= 'a') && (c <= 'f'))
-			tmp = c - 'a' + 10;
-		else if((c >= 'A') && (c <= 'F'))
-			tmp = c - 'A' + 10;
+		const u64 char_num = static_cast<u64>(c);
+
+		if (char_num >= '0' && char_num <= '9')
+			tmp = char_num - '0';
+		else if ((c >= 'a') && (c <= 'f'))
+			tmp = char_num - 'a' + 10;
+		else if ((c >= 'A') && (c <= 'F'))
+			tmp = char_num - 'A' + 10;
 		else
 			tmp = 0;
-		result |= (tmp << (length * 4));
+
+		result |= (tmp << (--length * 4));
 	}
 
 	return result;

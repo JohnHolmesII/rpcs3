@@ -190,7 +190,9 @@ bool np_handler::discover_ether_address()
 
 	for (; it != end; ++it)
 	{
-		strcpy(ifr.ifr_name, it->ifr_name);
+		const std::string_view source_name(it->ifr_name);
+		source_name.copy(ifr.ifr_name, IF_NAMESIZE);
+		//strcpy(ifr.ifr_name, it->ifr_name);
 		if (ioctl(sock, SIOCGIFFLAGS, &ifr) == 0)
 		{
 			if (!(ifr.ifr_flags & IFF_LOOPBACK))
